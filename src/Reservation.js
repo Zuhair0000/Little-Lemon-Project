@@ -50,6 +50,15 @@ function Reservation() {
     initialTimes
   );
 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
   const goToNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
@@ -85,10 +94,55 @@ function Reservation() {
     }
   };
 
-  function handleClick() {
-    setButtonText("Submitted");
-    setShowNewComponent(true);
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name) {
+      newErrors.name = "Name is required.";
+    }
+    if (!formData.email) {
+      newErrors.email = "Email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid.";
+    }
+    if (!formData.phone) {
+      newErrors.phone = "Phone number is required.";
+    } else if (!/^\d{10}$/.test(formData.phone)) {
+      newErrors.phone = "Phone number must be 10 digits.";
+    }
+    if (!formData.password) {
+      newErrors.password = "Password is required.";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters long.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // returns true if no errors
+  };
+
+  function handleClick(e) {
+    e.preventDefault(); // Prevent default form submission
+    if (validateForm()) {
+      setButtonText("Submitted");
+      setShowNewComponent(true);
+      // Clear form data after submission (optional)
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+      });
+      setErrors({}); // Clear errors
+    }
   }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   function Message() {
     return (
       <div id="message-div">
@@ -129,7 +183,7 @@ function Reservation() {
 
       <section id="menuSection2">
         <div id="day-selection">
-          <label for="day-form" id="select-label">
+          <label htmlFor="day-form" id="select-label">
             Choose Day
           </label>
           <select
@@ -139,13 +193,15 @@ function Reservation() {
           >
             <option>Select a Day</option>
             {days.map((day, index) => (
-              <option value={index}>{day}</option>
+              <option key={index} value={index}>
+                {day}
+              </option>
             ))}
           </select>
         </div>
 
         <div id="time-selection">
-          <label for="time-form" id="select-label">
+          <label htmlFor="time-form" id="select-label">
             Choose Time
           </label>
           <select id="time-form" className="form-select">
@@ -159,13 +215,15 @@ function Reservation() {
         </div>
 
         <div id="diners-selection">
-          <label for="diners-form" id="select-label">
+          <label htmlFor="diners-form" id="select-label">
             Choose Number of Diners
           </label>
           <select id="diners-form" className="form-select">
             <option>Select Number</option>
             {dinerNums.map((diner, index) => (
-              <option value={index}>{diner}</option>
+              <option key={index} value={index}>
+                {diner}
+              </option>
             ))}
           </select>
         </div>
@@ -192,6 +250,59 @@ function Reservation() {
           Outdoor
         </label>
       </form>
+
+      <div>
+        <div id="registeration-div">
+          <div id="inputs">
+            <label htmlFor="name-input">Name</label>
+            <input
+              type="text"
+              id="name-input"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+            {errors.name && <p className="error">{errors.name}</p>}
+          </div>
+
+          <div id="inputs">
+            <label htmlFor="email-input">Email</label>
+            <input
+              type="email"
+              id="email-input"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+            {errors.email && <p className="error">{errors.email}</p>}
+          </div>
+
+          <div id="inputs">
+            <label htmlFor="number-input">Phone Number</label>
+            <input
+              type="tel"
+              id="number-input"
+              name="phone"
+              value={formData.phone}
+              onChange={handleInputChange}
+            />
+            {errors.phone && <p className="error">{errors.phone}</p>}
+          </div>
+
+          <div id="inputs">
+            <label htmlFor="password-input">Password</label>
+            <input
+              type="password"
+              id="password-input"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+            {errors.password && <p className="error">{errors.password}</p>}
+          </div>
+        </div>
+      </div>
+
       <div id="sub-btn">
         <button id="submit-btn" onClick={handleClick}>
           {buttonText}

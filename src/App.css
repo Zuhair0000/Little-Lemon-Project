@@ -189,6 +189,24 @@ button:focus {
   align-items: center;
 }
 
+#registeration-div {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+#inputs {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+#inputs input {
+  width: 200px;
+  height: 30px;
+  border-radius: 30px;
+  border: 1px solid black;
+  margin-top: 10px;
+}
+
 footer {
   height: 100px;
   text-align: center;
