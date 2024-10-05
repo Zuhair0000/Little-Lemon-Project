@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
@@ -6,6 +5,8 @@ function App() {
     <>
       <header className="App-header">
         <nav>
+          <img src="../images/logo.jpg" alt="logo" />
+
           <ul>
             <li>
               <a href="#home">Home</a>
@@ -23,10 +24,19 @@ function App() {
         </nav>
       </header>
       <main>
-        <sectio>
-          <h1>Welcome to little lemon resturant</h1>
-          <p>Reserve a table and enjoy your meal</p>
-        </sectio>
+        <section>
+          <div id="left">
+            <h1>Little Lemon</h1>
+            <h2>Chicago</h2>
+            <p>
+              We are a family owned Mediterranean restaurant,
+              <br /> focused on traditional recipes served with a modern twist.
+            </p>
+          </div>
+          <div id="right">
+            <img src="../images/displayImg.jpg" alt="display" />
+          </div>
+        </section>
       </main>
       <footer>
         <p>2024 little limon</p>
